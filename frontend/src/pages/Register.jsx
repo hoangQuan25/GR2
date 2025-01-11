@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
-import API from '../api/axios';
+import API from '../api/UserAPI';
 
 const Register = () => {
-  const { register } = useContext(AuthContext);
+  const { signup } = useContext(AuthContext);
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',

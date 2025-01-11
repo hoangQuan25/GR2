@@ -2,7 +2,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode'; // To decode JWT tokens
 import { useNavigate } from 'react-router-dom';
-import API from '../api/axios'; // Ensure you have an API utility for making requests
+import API from '../api/UserAPI'; // Ensure you have an API utility for making requests
 
 export const AuthContext = createContext();
 
