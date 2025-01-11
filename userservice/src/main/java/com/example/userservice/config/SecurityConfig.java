@@ -45,7 +45,7 @@ public class SecurityConfig {
 
                 // Configure authorization rules
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/swagger-ui/index.html").permitAll()
                         .requestMatchers("/api/auth/**").permitAll() // Allow unauthenticated access to auth endpoints
                         .anyRequest().authenticated() // All other endpoints require authentication
                 );

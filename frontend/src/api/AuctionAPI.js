@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: "http://localhost:8080/api",
+const AuctionAPI = axios.create({
+  baseURL: "http://localhost:8090/api", // auction microservice
 });
 
-API.interceptors.request.use(
+AuctionAPI.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -17,4 +17,4 @@ API.interceptors.request.use(
   }
 );
 
-export default API;
+export default AuctionAPI;
