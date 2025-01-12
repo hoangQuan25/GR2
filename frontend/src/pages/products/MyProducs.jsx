@@ -1,7 +1,7 @@
 // src/pages/products/MyProducts.jsx
 import React, { useEffect, useState, useContext } from "react";
 import AuctionAPI from "../../api/AuctionAPI";
-import { AuthContext } from "../../auth/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
 const MyProducts = () => {

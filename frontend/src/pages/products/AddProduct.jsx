@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AuctionAPI from "../../api/AuctionAPI"; // The auction microservice
-import { AuthContext } from "../../auth/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const ProductForm = () => {
   const { auth } = useContext(AuthContext);
@@ -82,7 +82,7 @@ const ProductForm = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6">
+      <h2 className="text-2xl font-bold mb-6 text-white">
         {productId ? "Edit Product" : "Add Product"}
       </h2>
       <form onSubmit={handleSubmit}>
