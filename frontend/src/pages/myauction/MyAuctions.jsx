@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuctionAPI from "../../api/AuctionAPI";
 import UserAPI from "../../api/UserAPI";
-import { AuthContext } from "../../auth/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import getStatusColor from "../../utils/StatusColor";
 
 const MyAuctions = () => {

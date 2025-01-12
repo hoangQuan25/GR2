@@ -9,6 +9,4 @@ public class UserProfileResponse {
     private String firstName;
     private String lastName;
 
-    public UserProfileResponse(String firstName, String lastName) {
-    }
 }

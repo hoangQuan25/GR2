@@ -2,9 +2,12 @@ package com.example.auctionservice.service.impl;
 
 import com.example.auctionservice.entity.Auction;
 import com.example.auctionservice.entity.Bid;
+import com.example.auctionservice.event.OutbidEvent;
 import com.example.auctionservice.repository.BidRepository;
 import com.example.auctionservice.service.AuctionService;
 import com.example.auctionservice.service.BidService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,10 +18,21 @@ public class BidServiceImpl implements BidService {
 
     private final BidRepository bidRepository;
     private final AuctionService auctionService;
+    private final RabbitTemplate rabbitTemplate;
 
-    public BidServiceImpl(BidRepository bidRepository, AuctionService auctionService) {
+    @Value("${app.rabbitmq.exchange}")
+    private String exchange;
+
+    @Value("${app.rabbitmq.routingkey.outbid}")
+    private String outbidRoutingKey;
+
+
+    public BidServiceImpl(BidRepository bidRepository,
+                          AuctionService auctionService,
+                          RabbitTemplate rabbitTemplate) {
         this.bidRepository = bidRepository;
         this.auctionService = auctionService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     public Bid placeBid(Long auctionId, Long userId, Double amount) {
@@ -36,6 +50,8 @@ public class BidServiceImpl implements BidService {
             throw new RuntimeException("Bid is too low");
         }
 
+        Long oldHighestBidder = auction.getHighestBidderId();
+
         // Save bid
         Bid bid = Bid.builder()
                 .auctionId(auctionId)
@@ -49,6 +65,16 @@ public class BidServiceImpl implements BidService {
         auction.setCurrentBid(amount);
         auction.setHighestBidderId(userId);
         auctionService.updateAuction(auction);  // create update method or reuse save
+
+        if (oldHighestBidder != null && !oldHighestBidder.equals(userId)) {
+            OutbidEvent outbidEvent = new OutbidEvent();
+            outbidEvent.setAuctionId(auctionId);
+            outbidEvent.setOldHighestBidderId(oldHighestBidder);
+            outbidEvent.setNewHighestBidderId(userId);
+            outbidEvent.setNewHighestBidAmount(amount);
+
+            rabbitTemplate.convertAndSend(exchange, outbidRoutingKey, outbidEvent);
+        }
 
         return bid;
     }
