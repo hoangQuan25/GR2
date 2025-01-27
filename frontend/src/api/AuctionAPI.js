@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const AuctionAPI = axios.create({
-  baseURL: "http://localhost:8090/api", // auction microservice
+  baseURL: "http://192.168.2.12:8090/api", // auction microservice
 });
 
 AuctionAPI.interceptors.request.use(

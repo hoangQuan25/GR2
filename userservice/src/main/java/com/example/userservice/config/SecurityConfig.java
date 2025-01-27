@@ -3,6 +3,7 @@ package com.example.userservice.config;
 import com.example.userservice.security.CustomUserDetailsService;
 import com.example.userservice.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,9 @@ import java.util.Arrays;
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    @Value("${cors.allowed-origin}")
+    private String allowedOrigin;
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
@@ -70,7 +74,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Adjust as needed
+        configuration.setAllowedOrigins(Arrays.asList(allowedOrigin)); // Adjust as needed
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
