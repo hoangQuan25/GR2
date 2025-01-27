@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "4000:80"
+    depends_on:
+      - auctionservice
+      - notificationservice
+      - userservice
+    # If you need environment variables in the React app,
+    # you can define them here and use Vite's import.meta.env
+    # environment:
+    #   VITE_SOME_KEY: "some-value"
+    networks:
+      - my-network
+
+  auctionservice:
+    build:
+      context: ./auctionservice
+      dockerfile: Dockerfile
+    container_name: auctionservice
+    ports:
+      - "8090:8090"
+    networks:
+      - my-network
+
+  notificationservice:
+    build:
+      context: ./notificationservice
+      dockerfile: Dockerfile
+    container_name: notificationservice
+    ports:
+      - "9000:9000"
+    networks:
+      - my-network
+
+  userservice:
+    build:
+      context: ./userservice
+      dockerfile: Dockerfile
+    container_name: userservice
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

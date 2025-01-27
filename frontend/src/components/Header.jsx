@@ -70,7 +70,7 @@ const Header = () => {
                                     {new Date(notif.timestamp).toLocaleString()}
                                   </small>
                                 </div>
-                                <Link to={`/auctions/${notif.auctionId}`}>
+                                <Link to={`/item/${notif.auctionId}`}>
                                   <button
                                     className="ml-2 text-blue-500 hover:text-blue-700"
                                     onClick={() => {

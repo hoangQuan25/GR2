@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const NotificationAPI = axios.create({
-  baseURL: "http://localhost:9000/api/notifications", // Adjust based on your backend
+  baseURL: "http://192.168.2.12:9000/api/notifications", // Adjust based on your backend
   headers: {
     "Content-Type": "application/json",
   },
